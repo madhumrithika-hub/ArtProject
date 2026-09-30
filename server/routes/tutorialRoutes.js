@@ -76,7 +76,7 @@ router.post('/generate', authMiddleware, upload.single('visual'), async (req, re
       wireframeUrl: imageAnalysis.wireframeUrl,
       valueStudyUrl: imageAnalysis.valueStudyUrl,
       colorPalette: imageAnalysis.colorPalette,
-      suppliesNeeded: tutorialData.suppliesNeeded || [],
+      suppliesNeeded: Array.isArray(tutorialData.suppliesNeeded) ? tutorialData.suppliesNeeded : [],
       stages: enrichedStages,
     });
 

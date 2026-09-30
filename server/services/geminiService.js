@@ -342,7 +342,7 @@ Return a STRICT JSON response (NO markdown fences, pure JSON) with the following
 Provide 5 or 6 progressive academic stages (1: Gesture & Structural wireframe, 2: Anatomical/proportion landmarks, 3: Value/shadow block-in, 4: Midtones/washes/local color, 5: Detailing/edges, 6: Final highlights/finishing accents). Make the advice deeply specific to ${targetMedium}!`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.8-flash',
         contents: [
           {
             role: 'user',

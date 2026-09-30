@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
-
+const supplySchema = new mongoose.Schema(
+    {
+        name: String,
+        type: String,
+        note: String,
+    },
+    { _id: false }
+);
 const stepSchema = new mongoose.Schema({
   stepNumber: { type: Number, required: true },
   title: { type: String, required: true },
@@ -56,13 +63,7 @@ const tutorialSchema = new mongoose.Schema({
       role: String,
     },
   ],
-  suppliesNeeded: [
-    {
-      name: String,
-      type: String,
-      note: String,
-    },
-  ],
+  suppliesNeeded: [supplySchema],
   stages: [stepSchema],
   savedDrawing: {
     canvasData: String,
