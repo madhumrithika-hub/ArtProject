@@ -57,7 +57,7 @@ export default function App() {
     return (
       <div className="app-splash-screen">
         <div className="progress-spinner-ring"></div>
-        <span>Entering ArtFlow Atelier...</span>
+        <span>Entering DrawVinci...</span>
       </div>
     );
   }

@@ -12,7 +12,7 @@ export default function Navbar({ activeTab, setActiveTab, user, onLogout }) {
           </div>
           <div className="brand-text">
             <h1 className="brand-title">
-              ArtFlow <span className="text-gold-gradient">Studio</span>
+              Draw <span className="text-gold-gradient">Vinci</span>
             </h1>
             <span className="brand-tagline">AI Step-by-Step Fine Art Tutor</span>
           </div>

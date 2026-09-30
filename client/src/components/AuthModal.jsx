@@ -45,7 +45,7 @@ export default function AuthModal({ onLoginSuccess }) {
             <Palette className="icon-palette" size={32} />
           </div>
           <h2 className="auth-title">
-            ArtFlow <span className="text-gold-gradient">Studio</span>
+            Draw <span className="text-gold-gradient">Vinci</span>
           </h2>
           <p className="auth-subtitle">
             {isRegister
@@ -169,7 +169,7 @@ export default function AuthModal({ onLoginSuccess }) {
               <span className="spinner-text">Authenticating Studio Access...</span>
             ) : isRegister ? (
               <>
-                <span>Enter ArtFlow Studio</span>
+                <span>Enter DrawVinci</span>
                 <ArrowRight size={18} />
               </>
             ) : (

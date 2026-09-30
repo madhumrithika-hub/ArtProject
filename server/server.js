@@ -34,7 +34,7 @@ app.use('/api/tutorials', require('./routes/tutorialRoutes'));
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'online',
-    appName: 'ArtFlow Studio API',
+    appName: 'DrawVinci API',
     time: new Date().toISOString(),
   });
 });
@@ -49,6 +49,6 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🎨 [ArtFlow Server] Running on http://localhost:${PORT}`);
-  console.log(`📁 [ArtFlow Server] Uploads directory: ${uploadsPath}`);
+  console.log(`🎨 [DrawVinci Server] Running on http://localhost:${PORT}`);
+  console.log(`📁 [DrawVinci Server] Uploads directory: ${uploadsPath}`);
 });

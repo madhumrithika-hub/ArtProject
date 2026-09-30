@@ -224,7 +224,7 @@ export default function DrawingCanvas({
     const canvas = canvasRef.current;
     if (!canvas) return;
     const link = document.createElement('a');
-    link.download = `artflow-practice-${tutorialId}.png`;
+      link.download = `drawvinci-practice-${tutorialId}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
   };
