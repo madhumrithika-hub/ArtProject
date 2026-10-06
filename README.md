@@ -1,320 +1,493 @@
 # DrawVinci
 
-DrawVinci is an AI-powered step-by-step art tutorial application that helps users learn how to recreate an artwork from a reference image.
+> **Turn any artwork into a step-by-step drawing tutorial.**
 
-What DrawVinci Does
+DrawVinci is an AI-assisted drawing tutorial application that helps users recreate artwork by breaking a reference image into simple, structured, step-by-step drawing instructions.
 
-DrawVinci currently supports this workflow:
+Users can provide an artwork reference, analyze its visual structure, generate a guided tutorial, and then follow the tutorial inside an interactive drawing studio. The application is designed to make the process of recreating an artwork easier by gradually breaking it down into manageable stages.
 
-Create an artist account or sign in.
+The project is currently under active development, with additional features and improvements planned.
 
-Upload an artwork reference image.
+---
 
-Choose the reference medium/style.
+## ✨ Features
 
-Choose the target medium you want to learn.
+### 🎨 Reference Image Analysis
 
-Select the subject/genre.
+Upload an artwork reference and let DrawVinci analyze its visual characteristics.
 
-Describe your artistic goals and technique preferences.
+The application currently provides:
 
-Generate a step-by-step art masterclass.
+* **Wireframe analysis** for understanding the basic structure and proportions
+* **3-tone value study** for identifying major light, mid-tone, and dark regions
+* **Colour palette extraction** for identifying important colours from the reference
+* Basic local image analysis before tutorial generation
 
-Study the reference, wireframe, and value-study views.
+---
 
-Work through a six-stage tutorial.
+### 🤖 AI-Powered Tutorial Generation
 
-Practice directly on the built-in drawing canvas.
+DrawVinci uses **Google Gemini** to analyze the uploaded artwork and generate a structured drawing tutorial.
 
-Use Pencil, Brush, Ink Pen, and Eraser tools.
+The generated tutorial can include:
 
-Adjust drawing size and opacity.
+* Artwork overview
+* Recommended drawing approach
+* Required supplies
+* Step-by-step instructions
+* Visual guidance for each stage
+* Progressive development from initial construction to the finished artwork
 
-Use Undo/Redo, Grid, and Trace/Onion-Skin assistance.
+When Gemini is unavailable, the application also has a **local fallback tutorial generation system** so that tutorial creation can still function without relying entirely on the external AI service.
 
-Save practice work to the studio.
+---
 
-Download the drawing as PNG.
+### 📚 Tutorial Studio
 
-Reopen saved works through the gallery.
+Generated tutorials can be opened in the Tutorial Studio, where the user can work through the artwork progressively.
 
-Main Features
+The current tutorial workflow is organized into multiple stages, allowing users to move from:
 
-Authentication
+**Initial construction → proportions → values → details → refinement → final artwork**
 
-Artist registration and login
+Each stage provides the corresponding instructions and visual guidance needed for that part of the drawing process.
 
-JWT-based authentication
+---
 
-bcrypt password hashing
+### ✏️ Interactive Drawing Canvas
 
-Authenticated user sessions
+DrawVinci includes an interactive drawing environment where users can practice directly alongside their tutorial.
 
-User-specific saved work
+Current drawing capabilities include:
 
-Artwork Upload
+* Pencil tool
+* Brush/drawing controls
+* Eraser
+* Adjustable brush size
+* Adjustable opacity
+* Undo
+* Redo
+* Reference image support
+* Wireframe/reference overlays
+* Canvas-based drawing
 
-The upload system accepts:
+This allows the tutorial and the actual drawing process to exist within the same workspace.
 
-JPEG
+---
 
-PNG
+### 💾 Save & Continue Your Work
 
-WebP
+Users can save their drawing work and tutorials for later access.
 
-GIF
+The application currently supports:
 
-MP4
+* Saving artwork
+* Persisting tutorials
+* Accessing previously saved works
+* Continuing work from the saved workspace
+
+Saved content is managed through the application's MongoDB database.
+
+---
+
+### 🔐 Authentication
 
-MOV
+DrawVinci includes user authentication using:
 
-WebM
+* User registration
+* User login
+* Password hashing with `bcrypt`
+* JWT-based authentication
+* Protected application functionality
+
+---
+
+## 🧠 How DrawVinci Works
+
+The current workflow can be summarized as:
+
+```text
+                    ┌──────────────────┐
+                    │  Reference Art   │
+                    │      Upload      │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                  ┌─────────────────────┐
+                  │  Image Processing   │
+                  │   & Local Analysis  │
+                  └─────────┬───────────┘
+                            │
+              ┌─────────────┼─────────────┐
+              ▼             ▼             ▼
+         ┌─────────┐   ┌──────────┐   ┌─────────┐
+         │Wireframe│   │ 3-Tone   │   │ Colour  │
+         │Analysis │   │  Values  │   │ Palette │
+         └────┬────┘   └────┬─────┘   └────┬────┘
+              │             │              │
+              └─────────────┼──────────────┘
+                            ▼
+                  ┌─────────────────────┐
+                  │   Gemini AI /       │
+                  │  Local Fallback     │
+                  └─────────┬───────────┘
+                            │
+                            ▼
+                  ┌─────────────────────┐
+                  │ Drawing Tutorial    │
+                  │     Generation      │
+                  └─────────┬───────────┘
+                            │
+                            ▼
+                  ┌─────────────────────┐
+                  │   Tutorial Studio   │
+                  └─────────┬───────────┘
+                            │
+                            ▼
+                  ┌─────────────────────┐
+                  │ Interactive Drawing │
+                  │       Canvas        │
+                  └─────────┬───────────┘
+                            │
+                            ▼
+                  ┌─────────────────────┐
+                  │     Save Work       │
+                  │     & Gallery       │
+                  └─────────────────────┘
+```
+
+---
+
+## 🏗️ Project Architecture
+
+DrawVinci follows a full-stack architecture with a React frontend, Express backend, MongoDB database, and AI integration.
+
+```text
+DrawVinci
+│
+├── client/                  # React frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── assets/
+│   │   ├── App.jsx
+│   │   └── App.css
+│   ├── package.json
+│   └── vite.config.js
+│
+├── server/                  # Node.js / Express backend
+│   ├── models/              # MongoDB / Mongoose models
+│   ├── routes/              # API routes
+│   ├── middleware/          # Authentication and middleware
+│   ├── services/            # AI and image-processing logic
+│   ├── uploads/             # Uploaded artwork files
+│   ├── .env                 # Environment configuration
+│   ├── server.js
+│   └── package.json
+│
+└── README.md
+```
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* **React**
+* **Vite**
+* **JavaScript**
+* **HTML**
+* **CSS**
+* **Lucide React** for interface icons
+* **Canvas API** for interactive drawing
+* **Canvas Confetti** for UI feedback
+
+### Backend
+
+* **Node.js**
+* **Express.js**
+* **JavaScript**
+* **Multer** for file uploads
+* **Jimp** for image processing
+
+### Database
+
+* **MongoDB**
+* **Mongoose**
+
+### Authentication & Security
+
+* **JSON Web Tokens (JWT)**
+* **bcrypt**
+
+### Artificial Intelligence
+
+* **Google Gemini API**
+* **Google GenAI SDK**
+* Local fallback tutorial-generation logic
+
+---
+
+## 🔌 API Structure
+
+The backend currently exposes the following primary API areas:
+
+| Endpoint         | Purpose                                         |
+| ---------------- | ----------------------------------------------- |
+| `/api/health`    | Check backend/server health                     |
+| `/api/auth`      | User registration and authentication            |
+| `/api/tutorials` | Tutorial generation, retrieval, and persistence |
+
+The backend runs independently from the React frontend and communicates with MongoDB and the configured AI service.
+
+---
+
+## ⚙️ Environment Variables
+
+The backend requires environment variables for its configuration.
+
+Create a `.env` file inside the `server/` directory:
 
-The complete tutorial-generation workflow currently operates on images.
-Full video processing is planned.
+```env
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+GEMINI_API_KEY=your_gemini_api_key
+```
 
-Artistic Configuration
+### Environment Variables
 
-Users can define:
+| Variable         | Description                            |
+| ---------------- | -------------------------------------- |
+| `PORT`           | Port used by the Express server        |
+| `MONGODB_URI`    | MongoDB connection string              |
+| `JWT_SECRET`     | Secret used for JWT authentication     |
+| `GEMINI_API_KEY` | API key used for Gemini AI integration |
 
-Reference style/medium
+> **Important:** Never commit your `.env` file or expose your API keys publicly.
 
-Target medium
+---
 
-Subject/genre
+## 🚀 Running the Project Locally
 
-Artistic vision
+### Prerequisites
 
-Technique goals
+Make sure the following are installed:
 
-Style preferences
+* **Node.js**
+* **npm**
+* **MongoDB**
+* A **Google Gemini API key**
 
-Example:
+---
 
-Reference: Pencil / Graphite Sketch
-Target: Watercolor Painting
-Goal: Soft wet-on-wet washes with preserved paper highlights
-
-🤖 AI Tutorial Generation
-
-DrawVinci integrates Google's Gemini multimodal AI for visual artistic
-analysis.
-
-Generated tutorial information can include:
-
-Artwork interpretation
-
-Medium translation
-
-Recommended supplies
-
-Drawing stages
-
-Proportion guidance
-
-Structural construction
-
-Shadow/value guidance
-
-Form development
-
-Shading guidance
-
-Highlights and details
-
-Artist tips
-
-Common mistakes/watch-outs
-
-Time estimates
-
-Medium-specific instructions
-
-A fine-art fallback engine is also included so the tutorial workflow can
-continue when Gemini is temporarily unavailable.
-
-Local Image Analysis
-
-The backend uses Jimp for local image processing, including:
-
-Wireframe/edge representation
-
-Three-tone value study
-
-Extracted pigment/colour palette
-
-These references are displayed inside the Tutorial Studio.
-
-Tutorial Studio
-
-The masterclass is presented as an interactive six-stage learning
-experience:
-
-Gesture & Structural Wireframe
-
-Anatomical & Proportion Landmarks
-
-Shadow Block-In & Chiaroscuro Mapping
-
-Midtone Modeling & Form Development
-
-Refinement / Detail Development
-
-Final Accents / Finishing
-
-The studio provides:
-
-Stage navigation
-
-Progress tracking
-
-Stage-specific instructions
-
-Reference image
-
-Wireframe view
-
-Three-tone value view
-
-Extracted pigment palette
-
-Recommended supplies
-
-Estimated stage time
-
-Master Artist Tips
-
-Watch-Out warnings
-
-✏️ Built-In Drawing Canvas
-
-Current tools and controls:
-
-Pencil
-
-Brush
-
-Ink Pen
-
-Eraser
-
-Undo
-
-Redo
-
-Clear/reset drawing
-
-Drawing size
-
-Opacity
-
-Grid
-
-Trace/Onion-Skin assistance
-
-Colour/palette selection
-
-Save & Export
-
-Users can:
-
-Save drawing work to the studio
-
-Download the current drawing as PNG
-
-Revisit saved works through the gallery
-
-Saved Works Gallery
-
-Authenticated users can:
-
-View saved tutorials/works
-
-Reopen saved work
-
-Delete saved tutorial records
-
-Technology Stack
-
-Frontend
-
-React 19
-
-Vite
-
-JavaScript / JSX
-
-CSS
-
-HTML Canvas
-
-Backend
-
-Node.js
-
-Express.js
-
-JavaScript
-
-REST API
-
-Database
-
-MongoDB
-
-Mongoose
-
-Authentication
-
-JSON Web Tokens (JWT)
-
-bcrypt
-
-AI
-
-Google Gemini API
-
-@google/genai
-
-Image Processing
-
-Jimp
-
-File Uploads
-
-Multer
-
-Current API Functionality
-
-Authentication
-
-POST /api/auth/register
-POST /api/auth/login
-
-Tutorials
-
-POST /api/tutorials/generate
-GET  /api/tutorials
-DELETE /api/tutorials/:id
-
-The application also supports saving practice drawings associated with
-tutorial work.
-
-Tutorial Pipeline
-
-Upload Artwork
-      ↓
-Artistic Configuration
-      ↓
-Local Image Analysis
-(Wireframe / Values / Palette)
-      ↓
-Gemini Visual Analysis
-      ↓
-AI Tutorial / Fine-Art Fallback
-      ↓
-Six-Stage Tutorial Studio
-      ↓
-Interactive Drawing Canvas
-      ↓
-Save / Download / Saved Gallery
+### 1. Clone the repository
+
+```bash
+git clone <your-repository-url>
+cd ArtProject
+```
+
+---
+
+### 2. Install frontend dependencies
+
+```bash
+cd client
+npm install
+```
+
+---
+
+### 3. Install backend dependencies
+
+Open another terminal:
+
+```bash
+cd server
+npm install
+```
+
+---
+
+### 4. Configure environment variables
+
+Create:
+
+```text
+server/.env
+```
+
+and add:
+
+```env
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+---
+
+### 5. Start the backend
+
+From the `server/` directory:
+
+```bash
+node server.js
+```
+
+The backend will run on:
+
+```text
+http://localhost:5000
+```
+
+---
+
+### 6. Start the frontend
+
+From the `client/` directory:
+
+```bash
+npm run dev
+```
+
+Vite will provide the local development URL in the terminal, typically:
+
+```text
+http://localhost:5173
+```
+
+Open that address in your browser to use DrawVinci.
+
+---
+
+## 🔄 Application Flow
+
+A typical DrawVinci session follows this flow:
+
+```text
+1. Register / Log in
+        ↓
+2. Upload an artwork reference
+        ↓
+3. Analyze the reference
+        ↓
+4. Generate wireframe, value study & palette
+        ↓
+5. Generate drawing tutorial
+        ↓
+6. Open Tutorial Studio
+        ↓
+7. Follow the tutorial stage by stage
+        ↓
+8. Draw using the interactive canvas
+        ↓
+9. Save the completed/in-progress artwork
+        ↓
+10. Access saved work later
+```
+
+---
+
+## 📂 Main Project Structure
+
+```text
+ArtProject/
+│
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   └── ...
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
+│
+├── server/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── uploads/
+│   ├── .env
+│   ├── server.js
+│   └── package.json
+│
+├── .gitignore
+└── README.md
+```
+
+> The exact internal structure may evolve as development continues.
+
+---
+
+## 🧩 Current Capabilities
+
+DrawVinci currently supports:
+
+* User registration and login
+* JWT authentication
+* Artwork/image upload
+* Local image analysis
+* Wireframe generation
+* 3-tone value study
+* Colour palette extraction
+* Gemini-based artwork analysis
+* Local fallback tutorial generation
+* Structured drawing tutorial generation
+* Multi-stage tutorials
+* Tutorial persistence
+* Tutorial Studio
+* Interactive drawing canvas
+* Pencil/drawing tools
+* Eraser
+* Adjustable size
+* Adjustable opacity
+* Undo and redo
+* Reference and wireframe assistance
+* Saving artwork
+* Saved works/gallery functionality
+
+---
+
+## 🔮 Future Development
+
+DrawVinci is an ongoing project and is still under active development.
+
+Future updates will expand the application's capabilities, improve the existing drawing and tutorial experience, and introduce additional features as development progresses.
+
+The current implementation represents the foundation of the application, with more functionality planned for future versions.
+
+---
+
+## 📌 Project Status
+
+**Status: In Progress 🚧**
+
+The core functionality of DrawVinci is currently implemented and working locally.
+
+The project will continue to evolve with additional features, improvements, refinements, and eventually a deployment for public access.
+
+At present, DrawVinci is intended for **local development and testing**. A publicly accessible deployment and dedicated domain are planned for a future stage of the project.
+
+---
+
+## 👤 Author
+
+**Madhumitha**
+
+DrawVinci is currently developed as a solo project.
+
+---
+
+## 📄 License
+
+A license has not been added yet.
+
+Licensing will be considered as the project approaches its deployment and public-release stage.
